@@ -1,0 +1,51 @@
+export PERSONAL_KEY_NAME="Jo Christian Buvarp jochristian@gmail.com"
+❯ gpg --batch --full-generate-key <<EOF
+Key-Type: 1
+Key-Length: 4096
+Subkey-Type: 1
+Subkey-Length: 4096
+Expire-Date: 0
+Name-Real: ${PERSONAL_KEY_NAME}
+EOF
+
+gpg: key 11F8E196E6ECD9C2 marked as ultimately trusted
+gpg: directory '/home/jochristian/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/jochristian/.gnupg/openpgp-revocs.d/E68151A5EA31A3C6196943FC11F8E196E6ECD9C2.rev'
+❯ 
+❯ gpg --list-secret-keys "${PERSONAL_KEY_NAME}"
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+sec   rsa4096 2021-09-18 [SCEA]
+      E68151A5EA31A3C6196943FC11F8E196E6ECD9C2
+uid           [ultimate] Jo Christian Buvarp jochristian@gmail.com
+ssb   rsa4096 2021-09-18 [SEA]
+
+❯ export PERSONAL_KEY_FP=E68151A5EA31A3C6196943FC11F8E196E6ECD9C2
+❯ export GPG_TTY=$(tty)
+
+❯ export FLUX_KEY_NAME="kubecluster (Flux) jochristian@gmail.com"
+❯ gpg --batch --full-generate-key <<EOF
+%no-protection
+Key-Type: 1
+Key-Length: 4096
+Subkey-Type: 1
+Subkey-Length: 4096
+Expire-Date: 0
+Name-Real: ${FLUX_KEY_NAME}
+EOF
+gpg: key 9FD6C85F0534C51D marked as ultimately trusted
+gpg: revocation certificate stored as '/home/jochristian/.gnupg/openpgp-revocs.d/5B590FD3ADB4D65E56401C9F9FD6C85F0534C51D.rev'
+❯ gpg --list-secret-keys "${FLUX_KEY_NAME}"
+
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   2  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 2u
+sec   rsa4096 2021-09-18 [SCEA]
+      5B590FD3ADB4D65E56401C9F9FD6C85F0534C51D
+uid           [ultimate] kubecluster (Flux) jochristian@gmail.com
+ssb   rsa4096 2021-09-18 [SEA]
+
+❯ export FLUX_KEY_FP=5B590FD3ADB4D65E56401C9F9FD6C85F0534C51D
+
+
