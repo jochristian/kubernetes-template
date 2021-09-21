@@ -93,9 +93,6 @@ spec:
         path: /metrics
       httpPort: 4000
       logLevel: info
-    prometheus:
-      serviceMonitor:
-        enabled: true
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     # nodeSelector:
