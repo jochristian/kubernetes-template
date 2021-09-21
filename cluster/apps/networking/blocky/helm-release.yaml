@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: blocky
-      version: 8.0.0
+      version: 9.0.3
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -35,8 +35,10 @@ spec:
       dns-tcp:
         enabled: true
         type: LoadBalancer
-        externalIPs:
-          - "${LB_BLOCKY}"
+        loadBalancerIP: ${LB_BLOCKY}
+        annotations:
+          metallb.universe.tf/allow-shared-ip: blocky
+        externalTrafficPolicy: Local
         ports:
           dns-tcp:
             enabled: true
@@ -46,15 +48,17 @@ spec:
       dns-udp:
         enabled: true
         type: LoadBalancer
-        externalIPs:
-          - "${LB_BLOCKY}"
+        loadBalancerIP: ${LB_BLOCKY}
+        annotations:
+          metallb.universe.tf/allow-shared-ip: blocky
+        externalTrafficPolicy: Local
         ports:
           dns-udp:
             enabled: true
             port: 53
             protocol: UDP
             targetPort: 53
-        externalTrafficPolicy: Local
+
     # persistence:
     #   ads:
     #     enabled: true
@@ -66,9 +70,9 @@ spec:
     config: |
       upstream:
         externalResolvers:
-        #- tcp-tls:${SECRET_NEXTDNS_ID}.dns1.nextdns.io:853
-        #- tcp-tls:${SECRET_NEXTDNS_ID}.dns2.nextdns.io:853
-        - tcp+udp:${GATEWAY_IP}
+        - tcp-tls:${SECRET_NEXTDNS_ID}.dns1.nextdns.io:853
+        - tcp-tls:${SECRET_NEXTDNS_ID}.dns2.nextdns.io:853
+        #- tcp+udp:${GATEWAY_IP}
       conditional:
         mapping:
           ${SECRET_DOMAIN}: tcp+udp:${GATEWAY_IP}
@@ -86,8 +90,6 @@ spec:
         clientGroupsBlock:
           default:
           - ads
-      clientLookup:
-        upstream: tcp+udp:${GATEWAY_IP}
       prometheus:
         enable: true
         path: /metrics
@@ -109,8 +111,6 @@ spec:
                     values:
                       - blocky
               topologyKey: kubernetes.io/hostname
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
     resources:
       requests:
         memory: 100Mi
