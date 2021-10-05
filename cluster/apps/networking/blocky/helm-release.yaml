@@ -90,11 +90,11 @@ spec:
         clientGroupsBlock:
           default:
           - ads
-      prometheus:
-        enable: true
-        path: /metrics
-      httpPort: 4000
-      logLevel: info
+        httpPort: 4000
+        logLevel: info
+        prometheus:
+          enable: true
+          path: /metrics
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     affinity:
