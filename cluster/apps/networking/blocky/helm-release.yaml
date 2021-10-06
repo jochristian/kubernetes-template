@@ -59,14 +59,6 @@ spec:
             protocol: UDP
             targetPort: 53
 
-    # persistence:
-    #   ads:
-    #     enabled: true
-    #     mountPath: /app/whitelists
-    #     type: custom
-    #     volumeSpec:
-    #       configMap:
-    #         name: blocky-whitelist
     config: |
       upstream:
         externalResolvers:
@@ -90,11 +82,11 @@ spec:
         clientGroupsBlock:
           default:
           - ads
-        httpPort: 4000
-        logLevel: info
-        prometheus:
-          enable: true
-          path: /metrics
+      httpPort: 4000
+      logLevel: info
+      prometheus:
+        enable: true
+        path: /metrics
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     affinity:
